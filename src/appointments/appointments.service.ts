@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Appointment, AppointmentDocument } from './schemas/appointment.schema';
 import { CreateAppointmentDto } from './dto/create-appointment.dto/create-appointment.dto';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Injectable()
 export class AppointmentsService {
@@ -29,6 +30,16 @@ export class AppointmentsService {
   }
 
   async create(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
+    const { date, time } = createAppointmentDto;
+  
+    const existingAppointment = await this.appointmentModel
+      .findOne({ date, time })
+      .exec();
+  
+    if (existingAppointment) {
+      throw new HttpException('Time slot is already booked', HttpStatus.BAD_REQUEST);
+    }
+  
     const newAppointment = new this.appointmentModel(createAppointmentDto);
     return await newAppointment.save();
   }
