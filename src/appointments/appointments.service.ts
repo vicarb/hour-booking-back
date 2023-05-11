@@ -30,16 +30,16 @@ export class AppointmentsService {
   }
 
   async create(createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
-    const { date, time } = createAppointmentDto;
-  
+    const { date, time, selectedService } = createAppointmentDto;
+
     const existingAppointment = await this.appointmentModel
-      .findOne({ date, time })
+      .findOne({ date, time, selectedService })
       .exec();
-  
+
     if (existingAppointment) {
       throw new HttpException('Time slot is already booked', HttpStatus.BAD_REQUEST);
     }
-  
+
     const newAppointment = new this.appointmentModel(createAppointmentDto);
     return await newAppointment.save();
   }

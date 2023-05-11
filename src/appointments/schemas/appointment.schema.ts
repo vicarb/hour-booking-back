@@ -1,20 +1,20 @@
+// src/appointments/schemas/appointment.schema.ts
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export type AppointmentDocument = Appointment & Document;
+
 @Schema()
 export class Appointment {
-  @Prop()
-  serviceId: string;
-
-  @Prop()
-  serviceName: string;
-
-  @Prop()
+  @Prop({ required: true })
   date: string;
 
-  @Prop()
+  @Prop({ required: true })
   time: string;
+
+  @Prop({ required: true }) // add this
+  selectedService: string; // add this
 }
 
-export type AppointmentDocument = Appointment & Document;
 export const AppointmentSchema = SchemaFactory.createForClass(Appointment);

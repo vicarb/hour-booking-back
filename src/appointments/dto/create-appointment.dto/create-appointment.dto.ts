@@ -14,3 +14,5 @@ export class CreateAppointmentDto {
   @IsNotEmpty()
   time: string;
 }
+
+
