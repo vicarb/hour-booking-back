@@ -1,8 +1,9 @@
 // src/appointments/appointments.controller.ts
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
-import { TimeSlotsRequestDto } from './dto/time-slots-request.dto/time-slots-request.dto.spec';
+import { TimeSlotsRequestDto } from './dto/time-slots-request.dto/time-slots-request.dto';
 import { CreateAppointmentDto } from './dto/create-appointment.dto/create-appointment.dto';
+
 
 import { Appointment } from './schemas/appointment.schema';
 
@@ -17,7 +18,8 @@ export class AppointmentsController {
 
   @Get('time-slots')
   async getTimeSlots(@Query() timeSlotsRequestDto: TimeSlotsRequestDto) {
-    return await this.appointmentsService.getTimeSlots(timeSlotsRequestDto.date);
+    console.log(timeSlotsRequestDto);
+    return await this.appointmentsService.getTimeSlots(timeSlotsRequestDto.date, timeSlotsRequestDto.selectedService);
   }
 
   @Post()

@@ -17,8 +17,9 @@ export class AppointmentsService {
     return await this.appointmentModel.find().exec();
   }
 
-  async getTimeSlots(date: string): Promise<{ time: string; isAvailable: boolean }[]> {
-    const appointments = await this.appointmentModel.find({ date }).exec();
+  async getTimeSlots(date: string, selectedService: string): Promise<{ time: string; isAvailable: boolean }[]> {
+    console.log(date, selectedService);
+    const appointments = await this.appointmentModel.find({ date, selectedService }).exec();
     const bookedTimes = appointments.map((appointment) => appointment.time);
 
     const availableTimeSlots = this.generateTimeSlots().map((time) => {
