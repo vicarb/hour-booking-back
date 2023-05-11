@@ -13,6 +13,8 @@ export class CreateAppointmentDto {
   @IsString()
   @IsNotEmpty()
   time: string;
+
+  @IsString()
+  @IsNotEmpty()
+  customerName: string;
 }
-
-

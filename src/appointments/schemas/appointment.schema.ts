@@ -1,5 +1,3 @@
-// src/appointments/schemas/appointment.schema.ts
-
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -13,8 +11,11 @@ export class Appointment {
   @Prop({ required: true })
   time: string;
 
-  @Prop({ required: true }) // add this
-  selectedService: string; // add this
+  @Prop({ required: true }) 
+  selectedService: string;
+
+  @Prop({ required: true })  // add this
+  customerName: string;  // add this
 }
 
 export const AppointmentSchema = SchemaFactory.createForClass(Appointment);
