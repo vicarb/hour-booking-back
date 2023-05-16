@@ -25,13 +25,17 @@ export class AppointmentsController {
   }
 
   @Get('my')
-  @UseGuards(JwtAuthGuard)
-  async getUserAppointments(@GetUser() user: User) {
-    return this.appointmentsService.findByUser(user.username);
-  }
+@UseGuards(JwtAuthGuard)
+async getUserAppointments(@GetUser() user: User) {
+  const appointments = await this.appointmentsService.findByUser(user.username);
+  return { username: user.username, appointments };
+}
+
 
   @Post()
   async create(@Body() createAppointmentDto: CreateAppointmentDto): Promise<Appointment> {
     return await this.appointmentsService.create(createAppointmentDto);
   }
+
+  
 }
