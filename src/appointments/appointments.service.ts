@@ -16,6 +16,9 @@ export class AppointmentsService {
   async findAll(): Promise<Appointment[]> {
     return await this.appointmentModel.find().exec();
   }
+  async findByUser(username: string): Promise<Appointment[]> {
+    return this.appointmentModel.find({ username }).exec();
+  }
 
   async getTimeSlots(date: string, selectedService: string): Promise<{ time: string; isAvailable: boolean }[]> {
     console.log(date, selectedService);

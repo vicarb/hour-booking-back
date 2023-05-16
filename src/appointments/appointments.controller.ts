@@ -1,9 +1,11 @@
 // src/appointments/appointments.controller.ts
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { AppointmentsService } from './appointments.service';
 import { TimeSlotsRequestDto } from './dto/time-slots-request.dto/time-slots-request.dto';
 import { CreateAppointmentDto } from './dto/create-appointment.dto/create-appointment.dto';
-
+import { GetUser } from '../auth/get-user.decorator';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { User } from '../users/schemas/user.schema';
 
 import { Appointment } from './schemas/appointment.schema';
 
@@ -20,6 +22,12 @@ export class AppointmentsController {
   async getTimeSlots(@Query() timeSlotsRequestDto: TimeSlotsRequestDto) {
     console.log(timeSlotsRequestDto);
     return await this.appointmentsService.getTimeSlots(timeSlotsRequestDto.date, timeSlotsRequestDto.selectedService);
+  }
+
+  @Get('my')
+  @UseGuards(JwtAuthGuard)
+  async getUserAppointments(@GetUser() user: User) {
+    return this.appointmentsService.findByUser(user.username);
   }
 
   @Post()
