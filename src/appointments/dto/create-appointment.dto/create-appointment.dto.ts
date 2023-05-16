@@ -17,4 +17,8 @@ export class CreateAppointmentDto {
   @IsString()
   @IsNotEmpty()
   customerName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  user: string;
 }

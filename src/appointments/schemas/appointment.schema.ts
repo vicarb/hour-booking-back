@@ -11,11 +11,14 @@ export class Appointment {
   @Prop({ required: true })
   time: string;
 
-  @Prop({ required: true }) 
+  @Prop({ required: true })
   selectedService: string;
 
-  @Prop({ required: true })  // add this
-  customerName: string;  // add this
+  @Prop({ required: true })
+  customerName: string;
+
+  @Prop({ required: true })
+  user: string;
 }
 
 export const AppointmentSchema = SchemaFactory.createForClass(Appointment);
