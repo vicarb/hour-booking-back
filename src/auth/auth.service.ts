@@ -1,10 +1,10 @@
 // src/auth/auth.service.ts
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import * as bcrypt from 'bcrypt'; // make sure you have this line
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +33,10 @@ export class AuthService {
   }
 
   async register(createUserDto: CreateUserDto) {
+    const userExists = await this.usersService.findOne(createUserDto.username);
+    if (userExists) {
+      throw new ConflictException('Username already exists');
+    }
     const user = await this.usersService.create(createUserDto);
     return { message: 'User registered successfully' };
   }
