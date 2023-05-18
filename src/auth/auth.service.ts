@@ -15,22 +15,37 @@ export class AuthService {
 
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
+    console.log('User from database:', user);
     if (user) {
       const isPasswordMatching = await bcrypt.compare(pass, user.password);
       if (isPasswordMatching) {
-        const { password, ...result } = user;
-        return result;
+        const userResponse = {
+          _id: user._id,
+          username: user.username,
+          // Include any other user data you want to return
+        };
+        console.log('User to return:', userResponse);
+        return userResponse;
       }
     }
     return null;
   }
+  
+  
 
   async login(user: any) {
+    console.log(user);
+    
     const payload = { username: user.username, sub: user.userId };
     return {
       access_token: this.jwtService.sign(payload),
+      user: { // Add this line
+        username: user.username,
+        // Include any other user details you want to send back
+      },
     };
   }
+  
 
   async register(createUserDto: CreateUserDto) {
     const userExists = await this.usersService.findOne(createUserDto.username);

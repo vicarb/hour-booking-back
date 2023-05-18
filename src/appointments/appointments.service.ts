@@ -17,8 +17,12 @@ export class AppointmentsService {
     return await this.appointmentModel.find().exec();
   }
   
+
   async findByUser(user: string): Promise<Appointment[]> {
-    return this.appointmentModel.find({ user }).exec();
+    console.log('findByUser - user:', user); // Add
+    const appointments = this.appointmentModel.find({ user }).exec();
+    console.log('findByUser - appointments:', appointments); // Add
+    return appointments;
   }
 
   async getTimeSlots(date: string, selectedService: string): Promise<{ time: string; isAvailable: boolean }[]> {
